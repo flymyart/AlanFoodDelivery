@@ -82,8 +82,14 @@ const DISHES_INTENT = dishes.join('|');
 const CATEGORY_LIST = Object.keys(CATEGORY_ALIASES).join("|");
 
 intent(`(back|go back)`, p => {
-  p.play({command: 'navigation', action: 'back'});
-  p.play(`OK`);
+  const route = p.visual.route ? p.visual.route.toLowerCase() : null;
+  if( route === "/finish-order" ) {
+      p.play({command: 'navigation', route: '/menu'});
+      p.play(`OK Look at our menu`);
+  }else{
+      p.play({command: 'navigation', action: 'back'});
+      p.play(`OK`);
+  }
 });
 
 intent(`what is (it|the app|application)`, `where am I`,
@@ -268,8 +274,14 @@ let checkout = context(() => {
       });
 
   follow("back (to order|)", p => {
-      p.play({command: 'navigation', route: '/cart'});
-      p.play(`OK`);
+      const route = p.visual.route ? p.visual.route.toLowerCase() : null;
+      if( route === "/finish-order" ) {
+          p.play({command: 'navigation', route: '/menu'});
+          p.play(`OK Look at our menu`);
+      }else{
+          p.play({command: 'navigation', route: '/cart'});
+          p.play(`OK`);
+      }
       p.resolve(null)
   });
 });
@@ -530,7 +542,7 @@ intent(`finish (order|)`, p => {
   if (_.isEmpty(p.visual.order)) {
       p.play("Please, add something to your order first");
   } else {
-      p.play({command: "finishOrder"});
+    p.play({command: "finishOrder", route: '/finish-order'});
   }
 });
 
