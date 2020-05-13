@@ -159,7 +159,7 @@ intent(`how to (make an|) order`, `Give me an (order|) example`,
   reply("Choose food category and add items from menu to order. For example, you can say:" +
       "(select pizza, add 3 pepperoni, checkout|open street food, add 5 burgers, if you wish to remove some items say remove one burger, what is my order? checkout|open drinks, add one latte, add one cappuccino, that is all)"));
 
-intent(`(open|what do you have in|choose) $(ITEM ${CATEGORY_LIST})`, p => {
+intent(`(open|what do you have in|choose|) $(ITEM ${CATEGORY_LIST})`, p => {
   p.play({command: 'navigation', route: `/menu/${CATEGORY_ALIASES[p.ITEM.toLowerCase()]}`});
   p.play(`Openning ${p.ITEM} menu`);
 });
